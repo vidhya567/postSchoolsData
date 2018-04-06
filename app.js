@@ -5,7 +5,7 @@ const fs = require('fs');
 
 async function postSchoolsData() {
   const cloudSql = getCloudSql();
-  const schoolsDataString = fs.readFileSync('schools_data.json');
+  const schoolsDataString = fs.readFileSync('schools_data_tn.json');
   const schoolsData = JSON.parse(schoolsDataString);
   console.log("schools data obtained",schoolsData.length);
   for (let i = 0 ; i < schoolsData.length; i++) {
