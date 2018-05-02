@@ -19,9 +19,9 @@ function checkCall () {
 async function create (recordData, courseData) {
   connection.query('INSERT INTO schools SET ?', recordData, (error, results, fields) => {
     if (error) console.log("INSERT FAILED ",error);
-    read(results.insertId, (id) => {
+    read(results.insertId, (name,id) => {
       console.log("SUCESSFUL INSERT ",id);
-      await firestore.postCoursesData(id, courseData);
+      firestore.postCoursesData(id.toString(), courseData);
     });
 
   })
@@ -30,7 +30,7 @@ async function create (recordData, courseData) {
 function read (recordID, cb) {
   connection.query('SELECT instituteName FROM schools WHERE schoolID = ?',recordID, (error, results, fields) => {
     if (error)  console.log("CANNOT READ ",recordID);
-    cb(results);
+    	 cb(results, recordID);
   })
 }
 
