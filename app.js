@@ -10,7 +10,8 @@ async function postSchoolsData() {
   console.log("schools data obtained",schoolsData.length);
   for (let i = 0 ; i < schoolsData.length; i++) {
     const record = createRecord(schoolsData[i]);
-    await cloudSql.create(record);
+    const courseData = schoolsData[i]['courses'];
+    await cloudSql.create(record, courseData);
   }
 }
 
@@ -26,6 +27,7 @@ function createRecord (schoolData) {
   record['address'] = cleanUp(schoolData['address']);
   return record;
 }
+
 
 function cleanUp (str) {
   str = str.replace(/(\r\n\t|\n|\r\t)/gm,'');

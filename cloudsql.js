@@ -2,6 +2,7 @@
 
 const extend = require('lodash').assign;
 const mysql = require('mysql');
+const firestore = require('./firestoreDB');
 
 const options = {
   user: 'root',
@@ -15,10 +16,14 @@ function checkCall () {
   console.log("cloud SQL Called!");
 }
 
-function create (recordData) {
+async function create (recordData, courseData) {
   connection.query('INSERT INTO schools SET ?', recordData, (error, results, fields) => {
     if (error) console.log("INSERT FAILED ",error);
-    read(results.insertId, (id) => {console.log("SUCESSFUL INSERT ",id)});
+    read(results.insertId, (id) => {
+      console.log("SUCESSFUL INSERT ",id);
+      await firestore.postCoursesData(id, courseData);
+    });
+
   })
 }
 
